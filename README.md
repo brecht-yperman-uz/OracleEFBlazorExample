@@ -1,0 +1,7 @@
+Create the view using
+```
+CREATE OR REPLACE VIEW VIRTUAL_NUMBERS AS
+SELECT LEVEL AS RowNumber FROM DUAL CONNECT BY LEVEL <= 10000
+```
+
+Run the app
