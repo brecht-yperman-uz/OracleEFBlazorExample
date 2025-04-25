@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionString"];
 builder.Services.AddDbContextFactory<MyContext>(options =>
 {
-    options.UseOracle(connectionString);
+    options.UseOracle(connectionString, options => options.UseOracleSQLCompatibility(OracleSQLCompatibility.DatabaseVersion19));
 });
 
 builder.Services.AddSingleton<Service>();
