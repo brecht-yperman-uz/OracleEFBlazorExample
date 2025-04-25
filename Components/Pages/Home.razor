@@ -1,0 +1,32 @@
+﻿@page "/"
+
+@inject Service Service
+
+<PageTitle>Home</PageTitle>
+
+<Virtualize @ref="_virtualize" Context="result" ItemsProvider="LoadResult">
+    <div class="result-item">
+        <p>@result.RowNumber</p>
+    </div>
+</Virtualize>
+
+@code
+{
+    private Virtualize<VirtualNumber> _virtualize = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _virtualize.RefreshDataAsync();
+        }
+    }
+
+    private async ValueTask<ItemsProviderResult<VirtualNumber>> LoadResult(ItemsProviderRequest request)
+    {
+        var results = await Service.GetResults(request.Count, request.StartIndex, request.CancellationToken);
+
+        return new ItemsProviderResult<VirtualNumber>(results, 10000);
+    }
+
+}
